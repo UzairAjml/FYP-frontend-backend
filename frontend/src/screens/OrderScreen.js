@@ -24,7 +24,11 @@ const OrderScreen = ({ match, history }) => {
   const dispatch = useDispatch();
 
   const orderDetails = useSelector((state) => state.orderDetails);
+  const orderType = useSelector((state) => state.orderType);
+
   const { order, loading, error } = orderDetails;
+
+  console.log("Details",order)
 
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
@@ -99,21 +103,21 @@ const OrderScreen = ({ match, history }) => {
             <ListGroup.Item>
               <h2>Shipping</h2>
               <p>
-                <strong>Name: </strong> {order.user.name}
+                <strong>Name: </strong> {order?.user?.name}
               </p>
               <p>
                 <strong>Email: </strong>{" "}
-                <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
+                <a href={`mailto:${order?.user?.email}`}>{order?.user?.email}</a>
               </p>
               <p>
                 <strong>Address:</strong>
-                {order.shippingAddress.address}, {order.shippingAddress.city}{" "}
-                {order.shippingAddress.postalCode},{" "}
-                {order.shippingAddress.country}
+                {order?.shippingAddress?.address}, {order?.shippingAddress?.city}{" "}
+                {order?.shippingAddress?.postalCode},{" "}
+                {order?.shippingAddress?.country}
               </p>
               {order.isDelivered ? (
                 <Message variant="success">
-                  Delivered on {order.deliveredAt}
+                  Delivered on {order?.deliveredAt}
                 </Message>
               ) : (
                 <Message variant="danger">Not Delivered</Message>
@@ -127,7 +131,7 @@ const OrderScreen = ({ match, history }) => {
                 {order.paymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant="success">Paid on {order.paidAt}</Message>
+                <Message variant="success">Paid on {order?.paidAt}</Message>
               ) : (
                 <Message variant="danger">Not Paid</Message>
               )}
@@ -135,7 +139,7 @@ const OrderScreen = ({ match, history }) => {
 
             <ListGroup.Item>
               <h2>Order Items</h2>
-              {order.orderItems.length === 0 ? (
+              {order?.orderItems?.length === 0 ? (
                 <Message>Order is empty</Message>
               ) : (
                 <ListGroup variant="flush">
@@ -175,25 +179,49 @@ const OrderScreen = ({ match, history }) => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
-                  <Col>{order.itemsPrice} Rs</Col>
+                  <Col>{order?.orderItems?.length}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
+                  <Col>Order Type</Col>
+                  <Col>{order.orderType}</Col>
+                </Row>
+              </ListGroup.Item>
+              {
+                orderType.type==='Rent' &&
+                <>
+                <ListGroup.Item>
+                <Row>
+                  <Col>Start Date</Col>
+                  <Col>{order?.shippingAddress?.startDate}</Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>End Date</Col>
+                  <Col>{order?.shippingAddress?.endDate}</Col>
+                </Row>
+              </ListGroup.Item>
+                </>
+
+              }
+              <ListGroup.Item>
+                <Row>
                   <Col>Shipping</Col>
-                  <Col>{order.shippingPrice} Rs</Col>
+                  <Col>{order?.shippingPrice} Rs</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Tax</Col>
-                  <Col>{order.taxPrice} Rs</Col>
+                  <Col>{order?.taxPrice} Rs</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>{order.totalPrice} Rs</Col>
+                  <Col>{order?.totalPrice} Rs</Col>
                 </Row>
               </ListGroup.Item>
               {!order.isPaid && (
@@ -203,7 +231,7 @@ const OrderScreen = ({ match, history }) => {
                     <Loader />
                   ) : (
                     <PayPalButton
-                      amount={order.totalPrice}
+                      amount={order?.totalPrice}
                       onSuccess={successPaymentHandler}
                     />
                   )}

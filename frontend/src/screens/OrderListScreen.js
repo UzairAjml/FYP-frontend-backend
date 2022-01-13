@@ -10,6 +10,8 @@ const OrderListScreen = ({ history }) => {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.userLogin.userInfo._id);
   const orderList = useSelector((state) => state.orderList);
+
+
   const { loading, error, orders } = orderList;
   const [renderOrder, setRenderOrder] = useState([]);
   const userLogin = useSelector((state) => state.userLogin);
@@ -24,7 +26,8 @@ const OrderListScreen = ({ history }) => {
     }
   }, [dispatch, history, userInfo]);
   useEffect(() => {
-    let or = orders?.filter((or) => or.orderItems[0].owner === userId);
+    let or = orders;
+    // ?.filter((or) => or.orderItems[0].owner === userId);
     setRenderOrder(or);
   }, [orders, userId]);
   return (

@@ -20,6 +20,7 @@ import {
   createProductReview,
 } from "../actions/productActions";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
+import { orderType } from "../actions/orderTypeAction";
 
 const ProductScreen = ({location, history, match }) => {
   const [qty, setQty] = useState(1);
@@ -55,6 +56,12 @@ const ProductScreen = ({location, history, match }) => {
   }, [dispatch, match, successProductReview]);
 
   const addToCartHandler = () => {
+    dispatch(orderType('Buy'));
+    history.push(`/cart/${match.params.id}?qty=${qty}`);
+  };
+
+  const RentHandler = () => {
+    dispatch(orderType('Rent'));
     history.push(`/cart/${match.params.id}?qty=${qty}`);
   };
 
@@ -101,9 +108,9 @@ const ProductScreen = ({location, history, match }) => {
                   <b>Description</b> {product.description}
                 </ListGroup.Item>
                 <ListGroup.Item>  
-                  <Link className="btn-block btn btn-primary" to={redirect ? `/Rentt?redirect=${redirect}` : "/Rentt"}>
+                  {/* <Link className="btn-block btn btn-primary" to={redirect ? `/Rentt?redirect=${redirect}` : "/Rentt"}>
                     Rent
-                  </Link>
+                  </Link> */}
                   {/* <Button type="submit" variant="primary" >
                             Rent
                         </Button> */}
@@ -188,7 +195,15 @@ const ProductScreen = ({location, history, match }) => {
                       type="button"
                       disabled={product.countInStock === 0}
                     >
-                      Add To Cart
+                      Buy
+                    </Button>
+                    <Button
+                      onClick={RentHandler}
+                      className="btn-block"
+                      type="button"
+                      disabled={product.countInStock === 0}
+                    >
+                      Rent
                     </Button>
                   </ListGroup.Item>
                 </ListGroup>

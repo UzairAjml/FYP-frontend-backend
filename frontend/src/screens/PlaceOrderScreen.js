@@ -13,6 +13,7 @@ const PlaceOrderScreen = ({ history }) => {
 
   const cart = useSelector((state) => state.cart);
 
+
   if (!cart.shippingAddress.address) {
     history.push("/shipping");
   } else if (!cart.paymentMethod) {
@@ -35,7 +36,11 @@ const PlaceOrderScreen = ({ history }) => {
   ).toFixed(2);
 
   const orderCreate = useSelector((state) => state.orderCreate);
+  const orderType = useSelector((state) => state.orderType);
+
   const { order, success, error } = orderCreate;
+
+  console.log("type",orderType.type)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -60,6 +65,7 @@ const PlaceOrderScreen = ({ history }) => {
           shippingPrice: cart.shippingPrice,
           taxPrice: cart.taxPrice,
           totalPrice: parseInt(v.qty) * parseInt(v.price),
+          orderType:orderType.type
         })
       );
     });
@@ -129,7 +135,7 @@ const PlaceOrderScreen = ({ history }) => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
-                  <Col>{cart.itemsPrice} Rs</Col>
+                  <Col>{cart.cartItems.length}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
