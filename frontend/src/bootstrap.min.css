@@ -4698,7 +4698,7 @@ input[type="button"].btn-block {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #ab9631;
+  background-color: #1c1c1c;
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
 }
@@ -6519,7 +6519,7 @@ button.bg-light:focus {
   background-color: #e6e5e5 !important;
 }
 .bg-dark {
-  background-color: #cbae1e !important;
+  /* background-color: #cbae1e !important; */
 }
 a.bg-dark:hover,
 a.bg-dark:focus,
